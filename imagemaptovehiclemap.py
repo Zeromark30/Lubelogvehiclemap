@@ -33,7 +33,7 @@ def process_area_tags(html_input, output_filename="output.json"):
         item_data = {
             "Tags": tags,
             "Coordinates": coordinates,
-            "Color": "#",
+            "Color": "#7B89C7",
             "Shape": shape,
             "Opacity": 0.5
         }
