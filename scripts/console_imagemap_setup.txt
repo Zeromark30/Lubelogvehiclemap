@@ -3,7 +3,7 @@ const titlesToAdd = [
   { title: "Driver Front Panel", shape: "poly" },
   { title: "Driver Front Tire", shape: "circle" },
   { title: "Driver Mirror", shape: "poly" },
-  { title: "Driver Mirror", shape: "poly" }, // Duplicate for example
+  { title: "Driver Mirror", shape: "poly" },
   { title: "Driver Rear Door", shape: "poly" },
   { title: "Driver Rear Panel", shape: "poly" },
   { title: "Driver Rear Tire", shape: "circle" },
@@ -14,7 +14,7 @@ const titlesToAdd = [
   { title: "Passenger Front Panel", shape: "poly" },
   { title: "Passenger Front Tire", shape: "circle" },
   { title: "Passenger Mirror", shape: "poly" },
-  { title: "Passenger Mirror", shape: "poly" }, // Duplicate for example
+  { title: "Passenger Mirror", shape: "poly" },
   { title: "Passenger Rear Door", shape: "poly" },
   { title: "Passenger Rear Panel", shape: "poly" },
   { title: "Passenger Rear Tire", shape: "cirlce" },
