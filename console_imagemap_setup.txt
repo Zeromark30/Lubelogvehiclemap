@@ -1,0 +1,100 @@
+const titlesToAdd = [
+  { title: "Driver Front Door", shape: "poly" },
+  { title: "Driver Front Panel", shape: "poly" },
+  { title: "Driver Front Tire", shape: "circle" },
+  { title: "Driver Mirror", shape: "poly" },
+  { title: "Driver Mirror", shape: "poly" }, // Duplicate for example
+  { title: "Driver Rear Door", shape: "poly" },
+  { title: "Driver Rear Panel", shape: "poly" },
+  { title: "Driver Rear Tire", shape: "circle" },
+  { title: "Front Grill Bumper", shape: "poly" },
+  { title: "Front Windshield", shape: "poly" },
+  { title: "Hood", shape: "poly" },
+  { title: "Passenger Front Door", shape: "poly" },
+  { title: "Passenger Front Panel", shape: "poly" },
+  { title: "Passenger Front Tire", shape: "circle" },
+  { title: "Passenger Mirror", shape: "poly" },
+  { title: "Passenger Mirror", shape: "poly" }, // Duplicate for example
+  { title: "Passenger Rear Door", shape: "poly" },
+  { title: "Passenger Rear Panel", shape: "poly" },
+  { title: "Passenger Rear Tire", shape: "cirlce" },
+  { title: "Rear Liftgate Bumper", shape: "poly" },
+  { title: "Rear Windshield", shape: "poly" },
+  { title: "Roof", shape: "poly" },
+  // Example of a different shape:
+  // { title: "Headlight (Rect)", shape: "rect" },
+  // { title: "Hubcap (Circle)", shape: "circle" }
+];
+
+// Modified to accept an object with title and shape
+function addAreaWithData(areaData) {
+  const { title: titleText, shape: areaShape } = areaData;
+
+  // 1. Trigger adding a new area with the specified shape.
+  $("#image-map").imageMapper("addArea", areaShape).trigger("update");
+
+  // 2. Get the data to find the index of the newly added area.
+  const imageData = $("#image-map").imageMapper("getData");
+  const newAreaIndex = imageData.state.areaLength - 1;
+
+  // 3. Select the input fields for the newly added area and set their values.
+  const titleInputSelector = `input[name="im[${newAreaIndex}][title]"]`;
+  const $titleInput = $(titleInputSelector);
+
+  const shapeInputSelector = `select[name="im[${newAreaIndex}][shape]"]`;
+  const $shapeInput = $(shapeInputSelector);
+
+  if ($titleInput.length) {
+    // Set the title value
+    $titleInput.val(titleText);
+    $titleInput.trigger("change"); // Trigger change for title
+
+    console.log(`Added area at index ${newAreaIndex} with title: "${titleText}" and shape: "${areaShape}"`);
+
+    // Ensure the shape dropdown/input also reflects the specified shape if it exists in your UI
+    if ($shapeInput.length) {
+      $shapeInput.val(areaShape);
+      $shapeInput.trigger("change"); // Trigger change for shape input
+    }
+    return true;
+  } else {
+    console.error(`Could not find title input for area index ${newAreaIndex}.
+                   Ensure UI elements are rendered after 'update' trigger.`);
+    return false;
+  }
+}
+
+// Function to clear the first area (index 0)
+// This is typically the default one created on init.
+function clearFirstArea() {
+  const imageData = $("#image-map").imageMapper("getData");
+  if (imageData.area.length > 0) {
+    // Check if index 0 actually exists before trying to remove
+    $("#image-map").imageMapper("removeArea", 0).trigger("update");
+    console.log(`Removed area at index 0.`);
+  } else {
+    console.log("No areas to remove at index 0.");
+  }
+}
+
+let delay = 50; // milliseconds
+let currentTitleIndex = 0;
+
+function processNextTitle() {
+  if (currentTitleIndex < titlesToAdd.length) {
+    const areaData = titlesToAdd[currentTitleIndex]; // Get the object
+    addAreaWithData(areaData); // Pass the object
+    currentTitleIndex++;
+    setTimeout(processNextTitle, delay); // Changed name to avoid self-recursion issue in some consoles
+  } else {
+    console.log("Finished adding all areas from the list.");
+    // After adding all titles, clear the *first* area.
+    // This is good if the first area was the default one you didn't want.
+    clearFirstArea();
+  }
+}
+
+// To execute in your browser console:
+// Make sure to define all functions and the titlesToAdd array first.
+console.log("Starting to add areas with titles and shapes from list...");
+processNextTitle();
