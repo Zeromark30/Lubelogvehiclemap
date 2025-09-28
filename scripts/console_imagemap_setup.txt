@@ -21,9 +21,6 @@ const titlesToAdd = [
   { title: "Rear Liftgate Bumper", shape: "poly" },
   { title: "Rear Windshield", shape: "poly" },
   { title: "Roof", shape: "poly" },
-  // Example of a different shape:
-  // { title: "Headlight (Rect)", shape: "rect" },
-  // { title: "Hubcap (Circle)", shape: "circle" }
 ];
 
 // Modified to accept an object with title and shape
@@ -67,14 +64,8 @@ function addAreaWithData(areaData) {
 // Function to clear the first area (index 0)
 // This is typically the default one created on init.
 function clearFirstArea() {
-  const imageData = $("#image-map").imageMapper("getData");
-  if (imageData.area.length > 0) {
-    // Check if index 0 actually exists before trying to remove
     $("#image-map").imageMapper("removeArea", 0).trigger("update");
     console.log(`Removed area at index 0.`);
-  } else {
-    console.log("No areas to remove at index 0.");
-  }
 }
 
 let delay = 50; // milliseconds
